@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>UnduhTikTok - TikTok Downloader</title>
+    <title>Unduh TikTok - Downloader Tanpa Watermark</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         .hero-section { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
@@ -12,17 +12,17 @@
 <body class="bg-slate-50">
     <nav class="bg-white shadow-sm p-4">
         <div class="max-w-4xl mx-auto flex justify-between items-center">
-            <span class="text-2xl font-bold text-indigo-600">UnduhTik</span>
+            <span class="text-2xl font-bold text-indigo-600">Unduh TikTok</span>
         </div>
     </nav>
 
     <div class="hero-section text-white py-20 px-4 text-center">
+        <h1 class="text-4xl font-bold mb-4">TikTok Downloader</h1>
+        <p class="mb-8 text-indigo-100">Tanpa watermark. Gratis selamanya.</p>
+        
         <div class="max-w-xl mx-auto flex flex-col sm:flex-row gap-2 bg-white p-2 rounded-xl shadow-2xl">
-    <input type="text" id="urlInput" placeholder="Tempel link TikTok di sini..." class="flex-1 p-3 text-slate-800 outline-none rounded-lg min-w-0">
-    <button onclick="processVideo()" id="downloadBtn" class="bg-indigo-600 hover:bg-indigo-700 px-6 py-3 rounded-lg font-bold transition whitespace-nowrap">Download</button>
-</div>
-
-            <button onclick="processVideo()" id="downloadBtn" class="bg-indigo-600 hover:bg-indigo-700 px-6 py-3 rounded-lg font-bold transition">Download</button>
+            <input type="text" id="urlInput" placeholder="Tempel link TikTok di sini..." class="flex-1 p-3 text-slate-800 outline-none rounded-lg min-w-0">
+            <button onclick="processVideo()" id="downloadBtn" class="bg-indigo-600 hover:bg-indigo-700 px-6 py-3 rounded-lg font-bold transition whitespace-nowrap">Download</button>
         </div>
     </div>
 
@@ -68,8 +68,8 @@
                     document.getElementById('videoThumb').src = data.data.cover;
                     document.getElementById('videoDesc').innerText = data.data.title;
                     
-                    // --- TEMPEL LINK ADSTERRA ANDA DI BAWAH INI (BARIS 67) ---
-                    const directLink = 'MASUKKAN_LINK_ADSTERRA_ANDA_DI_SINI';
+                    // --- TEMPEL LINK ADSTERRA ANDA DI BAWAH (BARIS 74) ---
+                    const directLink = 'MASUKKAN_LINK_ADSTERRA_ANDA';
 
                     document.getElementById('btnVideo').onclick = () => {
                         window.open(directLink, '_blank'); 
@@ -80,15 +80,14 @@
                         window.open(directLink, '_blank'); 
                         window.location.href = data.data.music; 
                     };
-                    // --------------------------------------------------------
 
                     result.classList.remove('hidden');
                     window.scrollTo({ top: result.offsetTop - 50, behavior: 'smooth' });
                 } else {
-                    alert("Link tidak valid atau video bersifat privat.");
+                    alert("Link tidak valid.");
                 }
             } catch (e) {
-                alert("Gagal memproses video. Coba lagi nanti.");
+                alert("Gagal memproses.");
             } finally {
                 loader.classList.add('hidden');
                 btn.disabled = false;
