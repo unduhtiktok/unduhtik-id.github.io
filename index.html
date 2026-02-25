@@ -1,31 +1,24 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>UnduhTik - Download Video TikTok Tanpa Watermark</title>
+    <title>UnduhTik - Download Video TikTok</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         .hero-section { background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%); }
     </style>
 </head>
-<body class="bg-slate-50 font-sans">
+<body class="bg-slate-50">
     <nav class="bg-white shadow-sm py-4 px-6 flex justify-between items-center">
-        <div class="flex items-center gap-2">
-            <div class="bg-indigo-600 p-2 rounded-lg text-white">
-                <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16V4m0 0L3 8m4-4l4 4m6 0v12m0 0l4-4m-4 4l-4-4" />
-                </svg>
-            </div>
-            <span class="text-2xl font-bold text-slate-800 italic">UnduhTik</span>
-        </div>
+        <span class="text-2xl font-bold text-slate-800 italic">UnduhTik</span>
     </nav>
 
     <div class="hero-section text-white text-center py-20 px-4">
-        <h1 class="text-4xl md:text-5xl font-bold mb-4">Download video TikTok</h1>
-        <p class="text-lg opacity-90 mb-8">Tanpa watermark. Sangat cepat. Gratis selamanya.</p>
+        <h1 class="text-4xl font-bold mb-4">Download video TikTok</h1>
+        <p class="mb-8">Tanpa watermark. Gratis selamanya.</p>
         <div class="max-w-xl mx-auto bg-white rounded-2xl p-2 flex flex-col md:flex-row gap-2 shadow-2xl">
-            <input type="text" id="urlInput" placeholder="Tempel tautan video di sini..." class="flex-1 p-4 rounded-xl text-gray-800 focus:outline-none">
+            <input type="text" id="urlInput" placeholder="Tempel link TikTok di sini..." class="flex-1 p-4 rounded-xl text-gray-800 focus:outline-none">
             <button onclick="processVideo()" id="downloadBtn" class="bg-indigo-600 hover:bg-indigo-700 text-white px-8 py-4 rounded-xl font-bold transition-all">Download</button>
         </div>
     </div>
@@ -35,15 +28,15 @@
     </div>
 
     <div id="result" class="max-w-4xl mx-auto mt-8 px-4 hidden">
-        <div class="bg-white rounded-3xl shadow-xl overflow-hidden flex flex-col md:flex-row border border-slate-100">
+        <div class="bg-white rounded-3xl shadow-xl overflow-hidden flex flex-col md:flex-row border">
             <div class="md:w-1/3 bg-slate-200">
                 <img id="videoThumb" src="" alt="Thumbnail" class="w-full h-full object-cover">
             </div>
             <div class="p-8 md:w-2/3 flex flex-col justify-center">
                 <p id="videoDesc" class="text-slate-600 mb-6 font-medium line-clamp-2"></p>
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <a id="linkNoWM" href="#" class="bg-indigo-600 hover:bg-indigo-700 text-white text-center py-4 rounded-2xl font-bold transition-all">Download Video</a>
-                    <a id="linkMusic" href="#" class="bg-slate-800 hover:bg-slate-900 text-white text-center py-4 rounded-2xl font-bold transition-all">Download MP3</a>
+                    <button id="btnVideo" class="bg-indigo-600 text-white py-4 rounded-2xl font-bold">Download Video</button>
+                    <button id="btnMusic" class="bg-slate-800 text-white py-4 rounded-2xl font-bold">Download MP3</button>
                 </div>
             </div>
         </div>
@@ -56,7 +49,7 @@
             const loader = document.getElementById('loader');
             const result = document.getElementById('result');
 
-            if (!url) return alert("Silakan tempel link TikTok!");
+            if (!url) return alert("Silakan tempel link!");
             btn.disabled = true;
             loader.classList.remove('hidden');
             result.classList.add('hidden');
@@ -69,15 +62,27 @@
                 if (data.code === 0) {
                     document.getElementById('videoThumb').src = data.data.cover;
                     document.getElementById('videoDesc').innerText = data.data.title;
-                    document.getElementById('linkNoWM').href = data.data.play;
-                    document.getElementById('linkMusic').href = data.data.music;
+                    
+                    // FUNGSI IKLAN: Ganti URL di bawah dengan Direct Link Adsterra Anda
+                    const directLink = 'https://www.effectiveratecpm.com/your-ad-link';
+
+                    document.getElementById('btnVideo').onclick = () => {
+                        window.open(directLink, '_blank'); // Buka Iklan
+                        window.location.href = data.data.play; // Jalankan Download
+                    };
+                    
+                    document.getElementById('btnMusic').onclick = () => {
+                        window.open(directLink, '_blank'); // Buka Iklan
+                        window.location.href = data.data.music; // Jalankan Download
+                    };
+
                     result.classList.remove('hidden');
                     window.scrollTo({ top: result.offsetTop - 50, behavior: 'smooth' });
                 } else {
-                    alert("Link tidak valid atau video privat.");
+                    alert("Link tidak valid.");
                 }
             } catch (e) {
-                alert("Gagal memproses video.");
+                alert("Gagal memproses.");
             } finally {
                 loader.classList.add('hidden');
                 btn.disabled = false;
