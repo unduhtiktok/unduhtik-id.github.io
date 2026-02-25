@@ -106,28 +106,28 @@
 
             try {
                 // API TikTok Downloader (Gratis & Stabil)
-                const api = `https://www.tikwm.com/api/?url=${encodeURIComponent(url)}`;
-                const res = await fetch(api);
-                const data = await res.json();
+                            const api = `https://www.tikwm.com/api/?url=${encodeURIComponent(url)}`;
+            const res = await fetch(api);
+            const data = await res.json();
 
-                if (data.code === 0) {
-                    document.getElementById('videoThumb').src = "https://www.tikwm.com" + data.data.cover;
-                    document.getElementById('videoDesc').innerText = data.data.title;
-                    document.getElementById('linkNoWM').href = "https://www.tikwm.com" + data.data.play;
-                    document.getElementById('linkMusic').href = "https://www.tikwm.com" + data.data.music;
-                    
-                    result.classList.remove('hidden');
-                    window.scrollTo({ top: result.offsetTop - 50, behavior: 'smooth' });
-                } else {
-                    alert("Link tidak valid atau video sudah dihapus.");
-                }
-            } catch (e) {
-                alert("Server sibuk, coba lagi nanti.");
-            } finally {
-                loader.classList.add('hidden');
-                btn.disabled = false;
+            if (data.code === 0) {
+                document.getElementById('videoThumb').src = data.data.cover;
+                document.getElementById('videoDesc').innerText = data.data.title;
+                document.getElementById('linkNoWM').href = data.data.play;
+                document.getElementById('linkMusic').href = data.data.music;
+
+                result.classList.remove('hidden');
+                window.scrollTo({ top: result.offsetTop - 50, behavior: 'smooth' });
+            } else {
+                alert("Link tidak valid atau video sudah dihapus.");
             }
+        } catch (e) {
+            alert("Server sibuk, coba lagi nanti.");
+        } finally {
+            loader.classList.add('hidden');
+            btn.disabled = false;
         }
+
     </script>
 </body>
 </html>
