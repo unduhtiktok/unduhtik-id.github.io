@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>UnduhTik - TikTok Downloader</title>
+    <title>UnduhTikTok - TikTok Downloader</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         .hero-section { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
@@ -17,10 +17,11 @@
     </nav>
 
     <div class="hero-section text-white py-20 px-4 text-center">
-        <h1 class="text-4xl font-bold mb-4">TikTok Downloader</h1>
-        <p class="mb-8 text-indigo-100">Tanpa watermark. Gratis selamanya.</p>
-        <div class="max-w-xl mx-auto flex gap-2 bg-white p-2 rounded-xl shadow-2xl">
-            <input type="text" id="urlInput" placeholder="Tempel link TikTok di sini..." class="flex-1 p-3 text-slate-800 outline-none rounded-lg">
+        <div class="max-w-xl mx-auto flex flex-col sm:flex-row gap-2 bg-white p-2 rounded-xl shadow-2xl">
+    <input type="text" id="urlInput" placeholder="Tempel link TikTok di sini..." class="flex-1 p-3 text-slate-800 outline-none rounded-lg min-w-0">
+    <button onclick="processVideo()" id="downloadBtn" class="bg-indigo-600 hover:bg-indigo-700 px-6 py-3 rounded-lg font-bold transition whitespace-nowrap">Download</button>
+</div>
+
             <button onclick="processVideo()" id="downloadBtn" class="bg-indigo-600 hover:bg-indigo-700 px-6 py-3 rounded-lg font-bold transition">Download</button>
         </div>
     </div>
