@@ -104,7 +104,7 @@
             result.classList.add('hidden');
             btn.disabled = true;
 
-                    try {
+                            try {
             const api = `https://www.tikwm.com/api/?url=${encodeURIComponent(url)}`;
             const res = await fetch(api);
             const data = await res.json();
@@ -121,12 +121,11 @@
                 alert("Link tidak valid atau video sudah dihapus.");
             }
         } catch (e) {
-            alert("Terjadi kesalahan teknis, coba lagi.");
+            alert("Terjadi kesalahan, coba lagi nanti.");
         } finally {
             loader.classList.add('hidden');
             btn.disabled = false;
         }
 
-    </script>
 </body>
 </html>
