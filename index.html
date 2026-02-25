@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UnduhTik - Download Video TikTok Tanpa Watermark</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { background-color: #f0f2f5; }
+        .hero-section { background: linear-gradient(135deg, #6e00ff 0%, #b100ff 100%); }
+        .glass-input { background: rgba(255, 255, 255, 0.95); }
+    </style>
+</head>
+<body class="font-sans">
+
+    <nav class="bg-white p-4 shadow-md flex justify-between items-center px-6">
+        <div class="flex items-center gap-2">
+            <div class="bg-indigo-600 p-2 rounded-lg">
+                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16V4m0 0L3 8m4-4l4 4m6 0v12m0 0l4-4m-4 4l-4-4"></path></svg>
+            </div>
+            <span class="text-2xl font-black text-gray-800 tracking-tighter italic">UnduhTik</span>
+        </div>
+    </nav>
+
+    <div class="hero-section text-white py-16 px-4 text-center">
+        <h1 class="text-4xl md:text-5xl font-extrabold mb-8">Download video TikTok</h1>
+        
+        <div class="max-w-4xl mx-auto">
+            <div class="flex flex-col md:flex-row gap-0 bg-white p-2 rounded-2xl shadow-2xl relative">
+                <input type="text" id="inputUrl" placeholder="Tempel tautan video di sini..." 
+                    class="flex-1 p-5 text-gray-800 text-lg rounded-l-xl focus:outline-none placeholder-gray-400">
+                
+                <button onclick="pasteLink()" class="bg-gray-100 text-indigo-600 px-4 py-2 flex items-center gap-1 border-l border-gray-200 hover:bg-gray-200 transition">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"></path></svg>
+                    <span class="font-bold">Tempel</span>
+                </button>
+
+                <button onclick="prosesDownload()" id="btnAction"
+                    class="bg-indigo-600 hover:bg-indigo-700 text-white px-12 py-5 rounded-xl font-bold text-xl transition-all shadow-lg">
+                    Download
+                </button>
+            </div>
+        </div>
+        <p class="mt-6 text-indigo-100 opacity-90">Tanpa watermark. Sangat cepat. Gratis selamanya.</p>
+    </div>
+
+    <div class="max-w-4xl mx-auto my-8 px-4">
+        <div class="bg-white rounded-xl p-4 border-2 border-dashed border-gray-300 min-h-[250px] flex items-center justify-center text-center relative overflow-hidden shadow-sm">
+            <div class="text-gray-400">
+                <p class="text-sm uppercase font-bold tracking-widest mb-2">Iklan Disini</p>
+                <p>(Ganti bagian ini dengan kode dari Adsterra)</p>
+            </div>
+        </div>
+    </div>
+
+    <div id="loader" class="hidden text-center py-10">
+        <div class="inline-block animate-spin rounded-full h-12 w-12 border-4 border-indigo-600 border-t-transparent"></div>
+        <p class="mt-2 text-indigo-600 font-bold">Sedang memproses...</p>
+    </div>
+
+    <div id="result" class="hidden max-w-4xl mx-auto px-4 pb-20">
+        <div class="bg-white rounded-3xl p-8 shadow-2xl border border-gray-100 flex flex-col md:flex-row gap-8 items-center">
+            <div class="relative">
+                <img id="videoThumb" class="w-full md:w-64 rounded-2xl shadow-lg border-4 border-white" src="" alt="Thumbnail">
+                <span class="absolute top-4 left-4 bg-indigo-600 text-white text-xs px-2 py-1 rounded-md font-bold">Video Ready</span>
+            </div>
+            <div class="w-full space-y-4 text-center md:text-left">
+                <h3 id="videoDesc" class="font-bold text-gray-800 text-xl leading-tight"></h3>
+                <div class="grid grid-cols-1 gap-3">
+                    <a id="linkNoWM" href="#" target="_blank" class="flex items-center justify-center gap-2 w-full bg-green-500 hover:bg-green-600 text-white py-5 rounded-2xl font-black text-xl shadow-xl shadow-green-100 transition-transform active:scale-95">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a2 2 0 002 2h12a2 2 0 002-2v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+                        DOWNLOAD (NO WATERMARK)
+                    </a>
+                    <a id="linkMusic" href="#" target="_blank" class="flex items-center justify-center gap-2 w-full bg-gray-800 hover:bg-black text-white py-4 rounded-2xl font-bold transition-all">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3"></path></svg>
+                        Download Musik (MP3)
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Fungsi Tempel Link Otomatis
+        async function pasteLink() {
+            try {
+                const text = await navigator.clipboard.readText();
+                document.getElementById('inputUrl').value = text;
+            } catch (err) {
+                alert("Izin tempel ditolak browser.");
+            }
+        }
+
+        async function prosesDownload() {
+            const url = document.getElementById('inputUrl').value;
+            if (!url) {
+                alert("Masukkan link TikTok dulu!");
+                return;
+            }
+
+            const loader = document.getElementById('loader');
+            const result = document.getElementById('result');
+            const btn = document.getElementById('btnAction');
+
+            loader.classList.remove('hidden');
+            result.classList.add('hidden');
+            btn.disabled = true;
+
+            try {
+                // API TikTok Downloader (Gratis & Stabil)
+                const api = `https://www.tikwm.com/api/?url=${encodeURIComponent(url)}`;
+                const res = await fetch(api);
+                const data = await res.json();
+
+                if (data.code === 0) {
+                    document.getElementById('videoThumb').src = "https://www.tikwm.com" + data.data.cover;
+                    document.getElementById('videoDesc').innerText = data.data.title;
+                    document.getElementById('linkNoWM').href = "https://www.tikwm.com" + data.data.play;
+                    document.getElementById('linkMusic').href = "https://www.tikwm.com" + data.data.music;
+                    
+                    result.classList.remove('hidden');
+                    window.scrollTo({ top: result.offsetTop - 50, behavior: 'smooth' });
+                } else {
+                    alert("Link tidak valid atau video sudah dihapus.");
+                }
+            } catch (e) {
+                alert("Server sibuk, coba lagi nanti.");
+            } finally {
+                loader.classList.add('hidden');
+                btn.disabled = false;
+            }
+        }
+    </script>
+</body>
+</html>
