@@ -104,7 +104,7 @@
             result.classList.add('hidden');
             btn.disabled = true;
 
-                           try {
+                                   try {
             const api = `https://www.tikwm.com/api/?url=${encodeURIComponent(url)}`;
             const res = await fetch(api);
             const data = await res.json();
@@ -121,11 +121,13 @@
                 alert("Link TikTok tidak valid.");
             }
         } catch (e) {
-            alert("Gagal memproses. Coba lagi.");
+            alert("Gagal memproses, coba lagi.");
         } finally {
             loader.classList.add('hidden');
             btn.disabled = false;
         }
-               
+    });
+</script>
 </body>
 </html>
+
