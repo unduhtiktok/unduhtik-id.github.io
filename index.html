@@ -104,7 +104,7 @@
             result.classList.add('hidden');
             btn.disabled = true;
 
-                  try {
+                           try {
             const api = `https://www.tikwm.com/api/?url=${encodeURIComponent(url)}`;
             const res = await fetch(api);
             const data = await res.json();
@@ -118,14 +118,14 @@
                 result.classList.remove('hidden');
                 window.scrollTo({ top: result.offsetTop - 50, behavior: 'smooth' });
             } else {
-                alert("Link TikTok tidak valid atau video privat.");
+                alert("Link TikTok tidak valid.");
             }
         } catch (e) {
-            alert("Gagal terhubung ke server. Coba lagi nanti.");
+            alert("Gagal memproses. Coba lagi.");
         } finally {
             loader.classList.add('hidden');
             btn.disabled = false;
         }
-                          
+               
 </body>
 </html>
