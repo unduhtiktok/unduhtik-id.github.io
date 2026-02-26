@@ -1,14 +1,17 @@
-  <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Unduh TikTok - Tanpa Watermark</title>
+    <script src="https://pl28795976.effectivegatecpm.com/62/49/d4/6249d4160beb7df6951dff1620deab3f.js"></script>
+    <script src="https://pl28795980.effectivegatecpm.com/f8/b6/66/f8b6661eea4b4af376ca24a696dc2f65.js"></script>
+    
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        /* Warna Ungu Utama sesuai gambar 19614 */
-        .bg-purple-main { background: #9900ff; }
-        .btn-wide { width: 100%; border-radius: 12px; font-weight: bold; padding: 16px; }
+        .bg-purple-main { background: #9900ff; } /* Warna ungu sesuai gambar 19614 */
+        .btn-wide { width: 100%; border-radius: 12px; font-weight: bold; padding: 16px; transition: 0.3s; }
+        .timer-box { display: none; margin-bottom: 1rem; padding: 1rem; border-radius: 1rem; background: #f3e8ff; color: #7e22ce; text-align: center; font-weight: bold; border: 2px dashed #a855f7; }
     </style>
 </head>
 <body class="bg-slate-50">
@@ -17,34 +20,30 @@
     </nav>
 
     <div class="bg-purple-main text-white py-12 px-6 text-center">
-        <h1 class="text-4xl font-extrabold mb-8 leading-tight">Download video TikTok</h1>
+        <h1 class="text-4xl font-extrabold mb-8">Download video TikTok</h1>
         <div class="max-w-md mx-auto bg-white p-3 rounded-2xl shadow-2xl">
             <input type="text" id="urlInput" placeholder="Tempel link TikTok di sini..." 
                    class="w-full p-4 text-slate-800 outline-none rounded-xl border-none focus:ring-0">
             <button onclick="processVideo()" id="downloadBtn" 
-                    class="btn-wide bg-indigo-600 hover:bg-indigo-700 text-white text-xl mt-2 transition shadow-lg">
+                    class="btn-wide bg-indigo-600 hover:bg-indigo-700 text-white text-xl mt-2 shadow-lg">
                 Download
             </button>
         </div>
         <p class="mt-6 text-sm opacity-90 font-medium">Tanpa watermark. Sangat cepat. Gratis selamanya.</p>
     </div>
 
-    <div class="max-w-md mx-auto mt-6 px-4">
-        <script async="async" data-cfasync="false" src="https://pl28794656.effectivegatecpm.com/548fb47a99b06decf5f206957a2a3658/invoke.js"></script>
-        <div id="container-548fb47a99b06decf5f206957a2a3658"></div>
-    </div>
-
     <div id="loader" class="hidden text-center py-10">
         <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600 mx-auto"></div>
-        <p class="mt-4 text-slate-600">Menyiapkan video Anda...</p>
+        <p class="mt-4 text-slate-600">Menyiapkan video...</p>
     </div>
 
     <div id="result" class="max-w-md mx-auto py-8 px-4 hidden">
         <div class="bg-white rounded-3xl shadow-xl p-6 text-center border border-slate-100">
-            <img id="videoThumb" class="w-full h-48 rounded-2xl object-cover mb-4 shadow-sm" alt="Thumbnail">
+            <img id="videoThumb" class="w-full h-48 rounded-2xl object-cover mb-4" alt="Thumbnail">
             
-            <div id="adStatus" class="hidden mb-6 p-4 bg-purple-50 text-purple-700 rounded-xl font-bold border border-purple-100">
-                Iklan Terbuka! Download otomatis dimulai dalam <span id="timer">7</span> detik...
+            <div id="timerArea" class="timer-box">
+                Menyiapkan Download... <br>
+                Mohon tunggu <span id="seconds">15</span> detik.
             </div>
 
             <div class="space-y-3">
@@ -55,13 +54,19 @@
                     Tanpa tanda air HD | Watch ads 📺
                 </button>
             </div>
+
+            <div class="mt-8 border-t pt-6 text-center">
+                <p class="text-xs text-gray-400 mb-2 font-bold uppercase">Advertisement</p>
+                <script async="async" data-cfasync="false" src="https://pl28794656.effectivegatecpm.com/548fb47a99b06decf5f206957a2a3658/invoke.js"></script>
+                <div id="container-548fb47a99b06decf5f206957a2a3658"></div>
+            </div>
         </div>
     </div>
 
     <script>
         async function processVideo() {
             const url = document.getElementById('urlInput').value;
-            if (!url) return alert("Tempel link TikTok Anda!");
+            if (!url) return alert("Silakan tempel link!");
 
             document.getElementById('loader').classList.remove('hidden');
             document.getElementById('result').classList.add('hidden');
@@ -73,48 +78,39 @@
                 if (data.code === 0) {
                     document.getElementById('videoThumb').src = data.data.cover;
                     
-                    // --- SMARTLINK BARU ANDA ---
+                    // Gunakan Smartlink terakhir yang Anda berikan
                     const smartLink = 'https://www.effectivegatecpm.com/bvurraahp?key=0ceb5e7b8083bb7119327d38a80220fc'; 
-                    const videoLink = data.data.play;
+                    const downloadUrl = data.data.play;
 
-                    const runAdTimer = (seconds) => {
-                        // 1. Buka Smartlink Baru di Tab Baru
-                        window.open(smartLink, '_blank');
+                    const startProcess = (sec) => {
+                        window.open(smartLink, '_blank'); // Pemicu iklan tab baru
                         
-                        // 2. Jalankan Hitung Mundur
-                        let timeLeft = seconds;
-                        const statusBox = document.getElementById('adStatus');
-                        statusBox.classList.remove('hidden');
+                        let timeLeft = sec;
+                        const timerArea = document.getElementById('timerArea');
+                        const secondsSpan = document.getElementById('seconds');
+                        timerArea.style.display = 'block';
                         
                         const countdown = setInterval(() => {
                             timeLeft--;
-                            document.getElementById('timer').innerText = timeLeft;
-                            
+                            secondsSpan.innerText = timeLeft;
                             if (timeLeft <= 0) {
                                 clearInterval(countdown);
-                                // 3. Download Otomatis setelah waktu habis
-                                window.location.href = videoLink;
-                                statusBox.innerText = "Download Sedang Berjalan!";
-                                statusBox.classList.replace('bg-purple-50', 'bg-green-50');
-                                statusBox.classList.replace('text-purple-700', 'text-green-700');
+                                window.location.href = downloadUrl; // Download otomatis
+                                timerArea.innerHTML = "Download Dimulai!";
+                                timerArea.style.background = "#dcfce7";
+                                timerArea.style.color = "#15803d";
                             }
                         }, 1000);
                     };
 
-                    document.getElementById('btnVideo').onclick = () => runAdTimer(5);
-                    document.getElementById('btnVideoHD').onclick = () => runAdTimer(10);
+                    document.getElementById('btnVideo').onclick = () => startProcess(5);
+                    document.getElementById('btnVideoHD').onclick = () => startProcess(15);
 
                     document.getElementById('result').classList.remove('hidden');
-                } else {
-                    alert("Link tidak valid!");
                 }
-            } catch (e) {
-                alert("Gagal memproses video.");
-            } finally {
-                document.getElementById('loader').classList.add('hidden');
-            }
+            } catch (e) { alert("Error!"); }
+            finally { document.getElementById('loader').classList.add('hidden'); }
         }
     </script>
 </body>
 </html>
-          
