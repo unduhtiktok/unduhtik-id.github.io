@@ -1,116 +1,54 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Unduh TikTok - Tanpa Watermark</title>
-    <script src="https://pl28795976.effectivegatecpm.com/62/49/d4/6249d4160beb7df6951dff1620deab3f.js"></script>
-    <script src="https://pl28795980.effectivegatecpm.com/f8/b6/66/f8b6661eea4b4af376ca24a696dc2f65.js"></script>
-    
-    <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        .bg-purple-main { background: #9900ff; } /* Warna ungu sesuai gambar 19614 */
-        .btn-wide { width: 100%; border-radius: 12px; font-weight: bold; padding: 16px; transition: 0.3s; }
-        .timer-box { display: none; margin-bottom: 1rem; padding: 1rem; border-radius: 1rem; background: #f3e8ff; color: #7e22ce; text-align: center; font-weight: bold; border: 2px dashed #a855f7; }
-    </style>
-</head>
-<body class="bg-slate-50">
-    <nav class="bg-white p-4 text-center shadow-sm">
-        <span class="text-2xl font-bold text-purple-700">Unduh TikTok</span>
-    </nav>
+<script>
+    async function processVideo() {
+        const url = document.getElementById('urlInput').value;
+        if (!url) return alert("Tempel link TikTok dulu!");
 
-    <div class="bg-purple-main text-white py-12 px-6 text-center">
-        <h1 class="text-4xl font-extrabold mb-8">Download video TikTok</h1>
-        <div class="max-w-md mx-auto bg-white p-3 rounded-2xl shadow-2xl">
-            <input type="text" id="urlInput" placeholder="Tempel link TikTok di sini..." 
-                   class="w-full p-4 text-slate-800 outline-none rounded-xl border-none focus:ring-0">
-            <button onclick="processVideo()" id="downloadBtn" 
-                    class="btn-wide bg-indigo-600 hover:bg-indigo-700 text-white text-xl mt-2 shadow-lg">
-                Download
-            </button>
-        </div>
-        <p class="mt-6 text-sm opacity-90 font-medium">Tanpa watermark. Sangat cepat. Gratis selamanya.</p>
-    </div>
+        document.getElementById('loader').classList.remove('hidden');
+        document.getElementById('result').classList.add('hidden');
 
-    <div id="loader" class="hidden text-center py-10">
-        <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600 mx-auto"></div>
-        <p class="mt-4 text-slate-600">Menyiapkan video...</p>
-    </div>
+        try {
+            const res = await fetch(`https://www.tikwm.com/api/?url=${encodeURIComponent(url)}`);
+            const data = await res.json();
 
-    <div id="result" class="max-w-md mx-auto py-8 px-4 hidden">
-        <div class="bg-white rounded-3xl shadow-xl p-6 text-center border border-slate-100">
-            <img id="videoThumb" class="w-full h-48 rounded-2xl object-cover mb-4" alt="Thumbnail">
-            
-            <div id="timerArea" class="timer-box">
-                Menyiapkan Download... <br>
-                Mohon tunggu <span id="seconds">15</span> detik.
-            </div>
+            if (data.code === 0) {
+                document.getElementById('videoThumb').src = data.data.cover;
+                
+                // Gunakan Smartlink yang sudah diatur ke 'Mainstream'
+                const smartLink = 'https://www.effectivegatecpm.com/bvurraahp?key=0ceb5e7b8083bb7119327d38a80220fc'; 
+                const videoLink = data.data.play;
 
-            <div class="space-y-3">
-                <button id="btnVideo" class="btn-wide bg-sky-400 hover:bg-sky-500 text-white shadow-md">
-                    Tanpa tanda air
-                </button>
-                <button id="btnVideoHD" class="btn-wide bg-blue-500 hover:bg-blue-600 text-white shadow-md flex items-center justify-center gap-2">
-                    Tanpa tanda air HD | Watch ads 📺
-                </button>
-            </div>
-
-            <div class="mt-8 border-t pt-6 text-center">
-                <p class="text-xs text-gray-400 mb-2 font-bold uppercase">Advertisement</p>
-                <script async="async" data-cfasync="false" src="https://pl28794656.effectivegatecpm.com/548fb47a99b06decf5f206957a2a3658/invoke.js"></script>
-                <div id="container-548fb47a99b06decf5f206957a2a3658"></div>
-            </div>
-        </div>
-    </div>
-
-    <script>
-        async function processVideo() {
-            const url = document.getElementById('urlInput').value;
-            if (!url) return alert("Silakan tempel link!");
-
-            document.getElementById('loader').classList.remove('hidden');
-            document.getElementById('result').classList.add('hidden');
-
-            try {
-                const res = await fetch(`https://www.tikwm.com/api/?url=${encodeURIComponent(url)}`);
-                const data = await res.json();
-
-                if (data.code === 0) {
-                    document.getElementById('videoThumb').src = data.data.cover;
+                const startAdTimer = (seconds) => {
+                    // 1. Buka iklan di tab baru
+                    window.open(smartLink, '_blank');
                     
-                    // Gunakan Smartlink terakhir yang Anda berikan
-                    const smartLink = 'https://www.effectivegatecpm.com/bvurraahp?key=0ceb5e7b8083bb7119327d38a80220fc'; 
-                    const downloadUrl = data.data.play;
+                    // 2. Munculkan Timer "Watch Ads" di halaman download
+                    let timeLeft = seconds;
+                    const statusBox = document.getElementById('adStatus');
+                    statusBox.classList.remove('hidden');
+                    statusBox.innerHTML = `Reward dalam ${timeLeft} detik...`;
 
-                    const startProcess = (sec) => {
-                        window.open(smartLink, '_blank'); // Pemicu iklan tab baru
+                    const countdown = setInterval(() => {
+                        timeLeft--;
+                        statusBox.innerHTML = `Reward dalam ${timeLeft} detik...`;
                         
-                        let timeLeft = sec;
-                        const timerArea = document.getElementById('timerArea');
-                        const secondsSpan = document.getElementById('seconds');
-                        timerArea.style.display = 'block';
-                        
-                        const countdown = setInterval(() => {
-                            timeLeft--;
-                            secondsSpan.innerText = timeLeft;
-                            if (timeLeft <= 0) {
-                                clearInterval(countdown);
-                                window.location.href = downloadUrl; // Download otomatis
-                                timerArea.innerHTML = "Download Dimulai!";
-                                timerArea.style.background = "#dcfce7";
-                                timerArea.style.color = "#15803d";
-                            }
-                        }, 1000);
-                    };
+                        if (timeLeft <= 0) {
+                            clearInterval(countdown);
+                            // 3. Download otomatis dimulai sendiri
+                            window.location.href = videoLink; 
+                            statusBox.innerHTML = "Download dimulai otomatis!";
+                        }
+                    }, 1000);
+                };
 
-                    document.getElementById('btnVideo').onclick = () => startProcess(5);
-                    document.getElementById('btnVideoHD').onclick = () => startProcess(15);
+                document.getElementById('btnVideo').onclick = () => startAdTimer(5);
+                document.getElementById('btnVideoHD').onclick = () => startAdTimer(15);
 
-                    document.getElementById('result').classList.remove('hidden');
-                }
-            } catch (e) { alert("Error!"); }
-            finally { document.getElementById('loader').classList.add('hidden'); }
+                document.getElementById('result').classList.remove('hidden');
+            }
+        } catch (e) {
+            alert("Gagal memproses.");
+        } finally {
+            document.getElementById('loader').classList.add('hidden');
         }
-    </script>
-</body>
-</html>
+    }
+</script>
