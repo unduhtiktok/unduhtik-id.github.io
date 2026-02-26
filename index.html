@@ -9,59 +9,57 @@
     
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        .bg-purple-main { background: #9900ff; } /* Sesuai 19614 */
-        .btn-wide { width: 100%; border-radius: 12px; font-weight: bold; padding: 16px; transition: 0.3s; }
+        .bg-purple-main { background: #9900ff; } /* Sesuai warna di gambar 19614 */
+        .btn-wide { width: 100%; border-radius: 12px; font-weight: bold; padding: 16px; margin-top: 8px; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); }
         
-        /* Gaya Timer Melayang Sesuai Gambar 19672 */
+        /* Timer Melayang Sesuai Gambar 19672 */
         #rewardTimer {
             display: none;
             position: fixed;
             top: 20px;
             right: 20px;
-            background: rgba(0, 0, 0, 0.7);
+            background: rgba(0, 0, 0, 0.85);
             color: white;
-            padding: 8px 16px;
-            border-radius: 20px;
-            font-size: 14px;
-            z-index: 9999;
-            backdrop-filter: blur(5px);
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-weight: bold;
+            z-index: 10000;
+            font-family: sans-serif;
+            border: 1px solid rgba(255,255,255,0.2);
         }
     </style>
 </head>
 <body class="bg-slate-50">
 
-    <div id="rewardTimer">Reward dalam <span id="seconds">30</span> detik <span onclick="this.parentElement.style.display='none'" class="ml-2 cursor-pointer">✕</span></div>
-
-    <nav class="bg-white p-4 text-center shadow-sm">
-        <span class="text-2xl font-bold text-purple-700">Unduh TikTok</span>
-    </nav>
+    <div id="rewardTimer">Reward dalam <span id="seconds">15</span> detik <span onclick="this.parentElement.style.display='none'" class="ml-2 opacity-50 cursor-pointer">✕</span></div>
 
     <div class="bg-purple-main text-white py-12 px-6 text-center">
         <h1 class="text-4xl font-extrabold mb-8">Download video TikTok</h1>
-        <div class="max-w-md mx-auto bg-white p-3 rounded-2xl shadow-2xl">
-            <input type="text" id="urlInput" placeholder="Tempel link TikTok di sini..." 
-                   class="w-full p-4 text-slate-800 outline-none rounded-xl border-none focus:ring-0">
-            <button onclick="processVideo()" class="btn-wide bg-indigo-600 hover:bg-indigo-700 text-white text-xl mt-2 shadow-lg">
+        <div class="max-w-md mx-auto bg-white p-3 rounded-2xl shadow-2xl text-left">
+            <div class="flex items-center bg-slate-100 rounded-xl px-4 py-1">
+                <input type="text" id="urlInput" placeholder="Tempel link TikTok di sini..." 
+                       class="w-full p-3 bg-transparent text-slate-800 outline-none border-none focus:ring-0">
+                <button onclick="navigator.clipboard.readText().then(t => document.getElementById('urlInput').value = t)" class="text-purple-600 font-bold text-sm ml-2">Tempel</button>
+            </div>
+            <button onclick="processVideo()" class="btn-wide bg-indigo-600 hover:bg-indigo-700 text-white text-xl mt-4 transition-all">
                 Download
             </button>
         </div>
+        <p class="mt-6 text-sm opacity-90">Tanpa watermark. Sangat cepat. Gratis selamanya.</p>
     </div>
 
     <div id="loader" class="hidden text-center py-10">
         <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600 mx-auto"></div>
+        <p class="mt-4 text-slate-500">Menganalisis video...</p>
     </div>
 
     <div id="result" class="max-w-md mx-auto py-8 px-4 hidden">
-        <div class="bg-white rounded-3xl shadow-xl p-6 text-center">
-            <img id="videoThumb" class="w-full h-48 rounded-2xl object-cover mb-6" alt="Thumbnail">
+        <div class="bg-white rounded-3xl shadow-xl p-6 text-center border border-slate-100">
+            <img id="videoThumb" class="w-full h-48 rounded-2xl object-cover mb-6 shadow-sm">
             
-            <div class="space-y-3">
-                <button id="btnVideo" class="btn-wide bg-sky-400 text-white shadow-md">
-                    Tanpa tanda air
-                </button>
-                <button id="btnVideoHD" class="btn-wide bg-blue-500 text-white shadow-md">
-                    Tanpa tanda air HD | Watch ads 📺
-                </button>
+            <div class="flex flex-col space-y-2">
+                <button id="btnVideo" class="btn-wide bg-sky-400 hover:bg-sky-500 text-white">Tanpa tanda air</button>
+                <button id="btnVideoHD" class="btn-wide bg-blue-500 hover:bg-blue-600 text-white">Tanpa tanda air HD | Watch ads 📺</button>
             </div>
         </div>
     </div>
@@ -69,26 +67,29 @@
     <script>
         async function processVideo() {
             const url = document.getElementById('urlInput').value;
-            if (!url) return alert("Tempel link dulu!");
+            if (!url) return alert("Silakan masukkan link TikTok!");
 
             document.getElementById('loader').classList.remove('hidden');
             document.getElementById('result').classList.add('hidden');
 
             try {
+                // API TikWM untuk mendapatkan file video
                 const res = await fetch(`https://www.tikwm.com/api/?url=${encodeURIComponent(url)}`);
                 const data = await res.json();
 
                 if (data.code === 0) {
                     document.getElementById('videoThumb').src = data.data.cover;
                     
-                    // Gunakan Smartlink Mainstream baru agar tidak 18+
+                    // SMARTLINK MAINSTREAM ANDA
                     const smartLink = 'https://www.effectivegatecpm.com/bvurraahp?key=0ceb5e7b8083bb7119327d38a80220fc'; 
-                    const videoUrl = data.data.play;
+                    const videoDownloadUrl = data.data.play;
 
-                    const startTimer = (sec) => {
-                        window.open(smartLink, '_blank'); // Buka iklan
+                    const startAutoDownload = (waitSec) => {
+                        // 1. Buka Iklan Mainstream di tab baru
+                        window.open(smartLink, '_blank'); 
                         
-                        let timeLeft = sec;
+                        // 2. Jalankan Timer "Reward" melayang (Sesuai gambar 19672)
+                        let timeLeft = waitSec;
                         const timerDiv = document.getElementById('rewardTimer');
                         const secSpan = document.getElementById('seconds');
                         
@@ -97,20 +98,30 @@
                         const countdown = setInterval(() => {
                             timeLeft--;
                             secSpan.innerText = timeLeft;
+                            
                             if (timeLeft <= 0) {
                                 clearInterval(countdown);
-                                window.location.href = videoUrl; // Download otomatis
-                                timerDiv.innerHTML = "Selesai! Mengunduh...";
+                                // 3. Proses Download Otomatis dimulai
+                                window.location.href = videoDownloadUrl; 
+                                timerDiv.innerHTML = "Berhasil Mengunduh!";
+                                setTimeout(() => { timerDiv.style.display = 'none'; }, 3000);
                             }
                         }, 1000);
                     };
 
-                    document.getElementById('btnVideo').onclick = () => startTimer(5);
-                    document.getElementById('btnVideoHD').onclick = () => startTimer(15);
+                    // Klik tombol memicu timer dan iklan
+                    document.getElementById('btnVideo').onclick = () => startAutoDownload(7);
+                    document.getElementById('btnVideoHD').onclick = () => startAutoDownload(15);
+                    
                     document.getElementById('result').classList.remove('hidden');
+                } else {
+                    alert("Video tidak ditemukan.");
                 }
-            } catch (e) { alert("Error!"); }
-            finally { document.getElementById('loader').classList.add('hidden'); }
+            } catch (e) { 
+                alert("Terjadi kesalahan sistem."); 
+            } finally { 
+                document.getElementById('loader').classList.add('hidden'); 
+            }
         }
     </script>
 </body>
